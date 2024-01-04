@@ -1,8 +1,7 @@
-name: Links
+name: Check Links
 
 on:
-  repository_dispatch:
-  workflow_dispatch:
+  workflow_dispatch: {}
   schedule:
     - cron: "00 18 * * *"
 
@@ -13,12 +12,17 @@ jobs:
       - name: Clone the repo
         uses: actions/checkout@v3
 
-      - name: Check for broken links
-        id: lychee
-        uses: lycheeverse/lychee-action@v1
+      - name: Download earthly
+        run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/'${version}'/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          version: v0.7.23
 
+      - name: Check for broken links
+        run: earthly --ci +lint-lychee
+        env:
+          EARTHLY_SECRETS: ${{ secrets.EARTHLY_SECRETS }}
+
+      # FIXME: Move logic to earthly.
       - name: Create issue from lychee output file
         if: env.lychee_exit_code != 0
         uses: peter-evans/create-issue-from-file@v4
