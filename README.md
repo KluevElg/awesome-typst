@@ -56,7 +56,7 @@ PRs welcomed!
 [linkedin]: https://www.linkedin.com/company/typst/
 [mastodon]: https://mastodon.social/@typst
 [X]: https://twitter.com/typstapp/
-ivzxciopfisdfj
+
 ## Unofficial Project Links
 
 - [Typst-telegram-russian-chat](https://t.me/typst_ru) - chat about Typst in Telegram in russian
